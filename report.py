@@ -34,23 +34,6 @@ class Report(object):
             flag = False
             if '成功' in token.text:
                 flag=True
-            headers={
-                'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 Edg/99.0.1150.39'}
-            url = "https://weixine.ustc.edu.cn/2020/upload/xcm" #上传两码
-            data=login.session.get(url,headers=headers).text
-            data = data.encode('ascii','ignore').decode('utf-8','ignore')
-            data=re.search(r"formData:{([\s\S]*?)}",data,re.M)
-            data='{'+data.group(1)+'}'
-            data=data.replace("_token","'token'")
-            data=data.replace("'",'"')
-            data=json.loads(data)
-            data['t']='1' #1是上传行程码，2是上传健康码，3是上传核酸检测报告
-            data['id']='WU_FILE_0'
-            file={'file':open('trace.jpg','rb')}
-            login.session.post('https://weixine.ustc.edu.cn/2020img/api/upload_for_student',headers=headers,data=data,files=file)
-            data['t']='2'
-            file={'file':open('safe.jpg','rb')}
-            login.session.post('https://weixine.ustc.edu.cn/2020img/api/upload_for_student',headers=headers,data=data,files=file)
             data=login.session.get('https://weixine.ustc.edu.cn/2020/apply/daliy',headers=headers).text #报备
             data = data.encode('ascii','ignore').decode('utf-8','ignore')
             soup = BeautifulSoup(data, 'html.parser')
@@ -66,7 +49,8 @@ class Report(object):
                 'end_date':end_date,
                 'return_college[]':'西校区',
                 'return_college[]':'中校区',
-                'reason':'跨校区上课',
+                'reason':'其他事宜',
+                'comment':'吃饭',
                 't':'3'}
             post=login.session.post('https://weixine.ustc.edu.cn/2020/apply/daliy/ipost',data=data)
             if post.url=='\
