@@ -16,10 +16,8 @@
 * **记得使用前修改data.json的宿舍！**
 * **记得使用前修改data.json的宿舍！**
 * **记得使用前修改data.json的宿舍！**
-* **记得上传自己的两码！**
 * **最好修改一下跨校区理由，不要直接照搬表单！**
 
-## 核酸检测报告生成器：http://47.108.160.172:8080 仅提供项目部署示例供Python学习使用，当然在这个基础上进行进一步的开发是你的自由，但本人对滥用该生成器造成的后果概不负责！（已经声明，生成器的目的是学习交流用途）
 ## 更新记录
 
 - 20200831：增强稳定性
@@ -38,6 +36,7 @@
 - 20220526：自动上传两码，并修改了一些API
 - 20221108：取消了两码的上传
 - 20221121：恢复两码上传
+- 20221223：取消两码上传，更改了部分API的调用，该版本改回报备制的自动报备
 
 ## 使用方法
 
@@ -48,19 +47,18 @@
 2. 根据自己的实际情况修改`data.json`的数据，参看下文。默认的`data.json`是中校区在校状态。**开发者不保证这些模板的正确性。**
 
 3. 将修改好的代码push至master分支。如果不需要修改 `data.json`，请在 `README.md` 里添加一个空格并push，否则不会触发之后的步骤。**请在自己的仓库中修改，不要pull request到本仓库！**
-4. 修改trace.jpg为自己的行程码，safe.jpg修改为健康码。**这一步别忘了！**
 
-5. 点击Actions选项卡，点击`I understand my workflows, go ahead and enable them`.
+4. 点击Actions选项卡，点击`I understand my workflows, go ahead and enable them`.
 
-6. 点击Settings选项卡，点击左侧Secrets，点击New secret，创建名为`STUID`，值为自己学号的secret。用同样方法，创建名为`PASSWORD`，值为自己中国滑稽大学统一身份认证密码的secret。这两个值不会被公开。
+5. 点击Settings选项卡，点击左侧Secrets，点击New secret，创建名为`STUID`，值为自己学号的secret。用同样方法，创建名为`PASSWORD`，值为自己中国滑稽大学统一身份认证密码的secret。这两个值不会被公开。
 
    ![secrets](imgs/image-20200826215037042.png)
 
-7. 默认的打卡时间是每天的上午凌晨12:00，可能会有（延后）几分钟的浮动。如需选择其它时间，可以修改`.github/workflows/report.yml`中的`cron`，详细说明参见[安排的事件](https://docs.github.com/cn/actions/reference/events-that-trigger-workflows#scheduled-events)，请注意这里使用的是**国际标准时间UTC**，北京时间的数值比它大8个小时。建议修改默认时间，避开打卡高峰期以提高成功率。
+6. 默认的打卡时间是每天的上午凌晨12:00，可能会有（延后）几分钟的浮动。如需选择其它时间，可以修改`.github/workflows/report.yml`中的`cron`，详细说明参见[安排的事件](https://docs.github.com/cn/actions/reference/events-that-trigger-workflows#scheduled-events)，请注意这里使用的是**国际标准时间UTC**，北京时间的数值比它大8个小时。建议修改默认时间，避开打卡高峰期以提高成功率。
 
-8. 在Actions选项卡可以确认打卡情况。如果打卡失败（可能是临时网络问题等原因），脚本会自动重试，五次尝试后如果依然失败，将返回非零值提示构建失败。
+7. 在Actions选项卡可以确认打卡情况。如果打卡失败（可能是临时网络问题等原因），脚本会自动重试，五次尝试后如果依然失败，将返回非零值提示构建失败。
 
-9. 在Github个人设置页面的Notifications下可以设置Github Actions的通知，建议打开Email通知，并勾选"Send notifications for failed workflows only"。请及时查看邮件，如果失败会进行通知。
+8. 在Github个人设置页面的Notifications下可以设置Github Actions的通知，建议打开Email通知，并勾选"Send notifications for failed workflows only"。请及时查看邮件，如果失败会进行通知。
 
 ## 在本地运行测试
 
