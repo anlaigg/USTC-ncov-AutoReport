@@ -30,6 +30,7 @@ class Report(object):
             url = "https://weixine.ustc.edu.cn/2020/daliy_report"
             data=login.session.post(url, data=data, headers=headers).text
             soup = BeautifulSoup(data, 'html.parser')
+            print(data)
             token = soup.select("p.alert.alert-success")[0]
             flag = False
             if '成功' in token.text:
